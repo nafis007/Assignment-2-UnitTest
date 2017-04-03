@@ -29,7 +29,7 @@ public class WriterTester extends UnitTester{
 	}
 	
 	
-	//FAIL
+	//FAIL Null String Passing and Wrong Directory
 	@Test
 	public void FAIL_testWrite(){
 		

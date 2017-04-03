@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class RandomTextInputGenerator 
 {
+	public String randomGeneratorTestString = "";
 	
 	public RandomTextInputGenerator(File directory, int numberOfFiles){
 		
@@ -42,7 +43,9 @@ public class RandomTextInputGenerator
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
+			//ex.printStackTrace();
+			randomGeneratorTestString = "Random Input Exception Caught";
+			System.out.println("Random Input Exception Caught");
 		}
 	}
 	
