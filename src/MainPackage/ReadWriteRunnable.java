@@ -1,5 +1,6 @@
 package MainPackage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class ReadWriteRunnable implements Runnable 
@@ -23,7 +24,7 @@ public class ReadWriteRunnable implements Runnable
 	}
 	
 	
-	public void insideThreadRead()
+	public void insideThreadRead() throws ArrayIndexOutOfBoundsException, FileNotFoundException
 	{
 		System.out.println("ReaderWriter Thread running: " + threadId);
 		
@@ -43,7 +44,13 @@ public class ReadWriteRunnable implements Runnable
 	public void run() {
 		// TODO Auto-generated method stub
 		
-		insideThreadRead();
+		try {
+			insideThreadRead();
+		} 
+		catch (ArrayIndexOutOfBoundsException | FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		insideThreadWrite();	
 	}

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -24,44 +25,65 @@ public class ReaderTester extends UnitTester{
         System.out.println("before");  
     }
     
+    
     @Test
-	public void testRead(){
-		Reader reader = new Reader(new File("D:\\testCase\\testRead\\success"));
-		System.out.println("test case Reader: Read Method");
-		int expectedFileSize = 2;
-		assertEquals(expectedFileSize,reader.read(0, 0).size());
-	}
-	//FAIL
-	@Test
-	public void FAILtestRead(){
-		Reader reader = new Reader(new File("D:\\testCase\\testRead\\fail"));
-		System.out.println("test case Reader: FAIL Read Method");
+	public void testRead() throws ArrayIndexOutOfBoundsException, FileNotFoundException{
+    	
+    	System.out.println("test Reader: Read Method Success Test");
+    	
+		Reader reader = new Reader(new File("D:\\testCase\\testReader"));
 		
-		boolean isWronglyRead = true;
-		
-		int readFileLength = reader.read(0, 0).size();
 		int expectedFileSize = 2;
 		
-		if ( readFileLength == expectedFileSize ) {
-			isWronglyRead = false;
-		}
-		assertTrue(isWronglyRead);
+		assertEquals(expectedFileSize, reader.read(0,0).size()); 
 	}
 	
+    //FAIL ArrayIndexOutoFBound 
+    @Test
+	public void FAIL_testRead() throws ArrayIndexOutOfBoundsException, FileNotFoundException{
+    	
+    	System.out.println("test Reader: Read Method FAIL Test");
+    	
+		Reader reader = new Reader(new File("D:\\testCase\\testReader"));
+		
+		int expectedFileSize = 2;
+		
+		assertEquals(expectedFileSize, reader.read(0,1).size()); 
+	}
+    
+  //FAIL 
+    @Test
+	public void FAIL_testReadNoDirectory() throws ArrayIndexOutOfBoundsException, 
+															FileNotFoundException{
+    	
+    	System.out.println("test Reader: Reader Constructor and No Directory FAIL test");
+    	
+    	//wrong directory, 's' added
+		Reader reader = new Reader(new File("D:\\testCase\\testReaders"));
+		
+		String expectedFailureString = "Root of any IO exception";
+		
+		assertEquals(expectedFailureString, reader.read(0,0).get(0)); 
+	}
+	
+    
 	@Test
 	public void testSortFiles(){
 
+		System.out.println("test Reader: SortFiles in Directory Success Test");
+		
 		Reader reader = new Reader(new File("D:\\testCase\\testSortFiles"));
-		System.out.println("test case Reader: testSortFiles Method");
+		
 		File fileFolder = new File("D:\\testCase\\testSortFiles");
 		File[] listOfInputFiles = fileFolder.listFiles();
 		
 		File[] tempFileList = reader.sortFilesInDirectory(listOfInputFiles);
 		int lastIndex = extractNumber(tempFileList[3].getName());
+		
 		assertEquals(10,lastIndex);
 	}
 	
-	//FAIL
+	/*//FAIL
 	@Test
 	public void FAILtestSortFiles(){
 
@@ -79,5 +101,5 @@ public class ReaderTester extends UnitTester{
 			isSorted = false;
 		}
 		assertFalse(!(isSorted));
-	}
+	}*/
 }
