@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 
-public class Main extends Resources
+public class Main
 {
 	
 	public static void main(String[] args) {
@@ -20,14 +20,15 @@ public class Main extends Resources
 		initializer.generateRandomInput();
 
 		TextFileReadWriteThreadHandler textFileThreadManager = 
-				new TextFileReadWriteThreadHandler(numberOfInputFiles, 
-													numberOfThreads, 
-													targetInputDirectory, 
-													targetOutputDirectory);
+				new TextFileReadWriteThreadHandler(initializer.numberOfInputFiles, 
+												   initializer.numberOfThreads, 
+												   initializer.targetInputDirectory, 
+												   initializer.targetOutputDirectory);
 		
 		
 		textFileThreadManager.threadReadWrite();
-		textFileThreadManager.masterReadWrite(targetOutputDirectory, masterOutputDirectory);
+		textFileThreadManager.masterReadWrite(initializer.targetOutputDirectory,
+											  initializer.masterOutputDirectory);
 
 	}
 }

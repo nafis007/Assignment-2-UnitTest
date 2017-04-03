@@ -48,15 +48,16 @@ public class ReaderTester extends UnitTester{
 		
 		int expectedFileSize = 2;
 		
+		//there is only one text file but i am giving to read 2 files
 		assertEquals(expectedFileSize, reader.read(0,1).size()); 
 	}
     
-  //FAIL 
+    //FAIL NO Directory fail test
     @Test
 	public void FAIL_testReadNoDirectory() throws ArrayIndexOutOfBoundsException, 
 															FileNotFoundException{
     	
-    	System.out.println("test Reader: Reader Constructor and No Directory FAIL test");
+    	System.out.println("test Reader: Inside Reader Constructor, No Directory FAIL test");
     	
     	//wrong directory, 's' added
 		Reader reader = new Reader(new File("D:\\testCase\\testReaders"));

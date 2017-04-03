@@ -1,8 +1,15 @@
 package MainPackage;
 import java.io.File;
 
-public class Initializer extends Resources
+public class Initializer 
 {
+	public static int numberOfInputFiles;
+	public static int numberOfThreads;
+	
+	public static File targetInputDirectory;
+	public static File targetOutputDirectory;
+	public static File masterOutputDirectory;
+	
 	public Initializer(int inputFileNumber, int threadNumber)
 	{
 		

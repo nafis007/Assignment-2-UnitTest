@@ -2,8 +2,12 @@ package MainPackage;
 import java.io.File;
 import java.util.ArrayList;
 
-public class TextFileReadWriteThreadHandler extends Resources
+public class TextFileReadWriteThreadHandler 
 {
+	public static ArrayList<Thread> listOfReadWriteThreads = new ArrayList<Thread>();
+	
+	public static ArrayList<ReadWriteRunnable> listOfRunnables = new ArrayList<ReadWriteRunnable>();
+	
 	static int numberOfInputFiles;
 	static int numberOfThreads;
 	
