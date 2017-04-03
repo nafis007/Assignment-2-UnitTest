@@ -14,16 +14,6 @@ import org.junit.Test;
 import MainPackage.*;
 
 public class ReaderTester extends UnitTester{
-	
-	@BeforeClass  
-    public static void setUpBeforeClass() throws Exception {  
-        System.out.println("before class");  
-    }  
-	
-    @Before  
-    public void setUp() throws Exception {  
-        System.out.println("before");  
-    }
     
     
     @Test
@@ -31,7 +21,7 @@ public class ReaderTester extends UnitTester{
     	
     	System.out.println("test Reader: Read Method Success Test");
     	
-		Reader reader = new Reader(new File("D:\\testCase\\testReader"));
+		Reader reader = new Reader(new File("D:\\testCase\\testReader\\readerAndRead"));
 		
 		int expectedFileSize = 2;
 		
@@ -44,7 +34,7 @@ public class ReaderTester extends UnitTester{
     	
     	System.out.println("test Reader: Read Method FAIL Test");
     	
-		Reader reader = new Reader(new File("D:\\testCase\\testReader"));
+		Reader reader = new Reader(new File("D:\\testCase\\testReader\\readerAndRead"));
 		
 		int expectedFileSize = 2;
 		
@@ -59,23 +49,25 @@ public class ReaderTester extends UnitTester{
     	
     	System.out.println("test Reader: Inside Reader Constructor, No Directory FAIL test");
     	
-    	//wrong directory, 's' added
-		Reader reader = new Reader(new File("D:\\testCase\\testReaders"));
+    	//wrong directory, testReader+'s' added
+		Reader reader = new Reader(new File("D:\\testCase\\testReaders\\readerAndRead"));
 		
 		String expectedFailureString = "Root of any IO exception";
 		
-		assertEquals(expectedFailureString, reader.read(0,0).get(0)); 
+		assertEquals(expectedFailureString, reader.read(0, 0).get(0)); 
 	}
 	
+    
+    
     
 	@Test
 	public void testSortFiles(){
 
 		System.out.println("test Reader: SortFiles in Directory Success Test");
 		
-		Reader reader = new Reader(new File("D:\\testCase\\testSortFiles"));
+		Reader reader = new Reader(new File("D:\\testCase\\testReader\\testSortFiles"));
 		
-		File fileFolder = new File("D:\\testCase\\testSortFiles");
+		File fileFolder = new File("D:\\testCase\\testReader\\testSortFiles");
 		File[] listOfInputFiles = fileFolder.listFiles();
 		
 		File[] tempFileList = reader.sortFilesInDirectory(listOfInputFiles);
@@ -84,23 +76,21 @@ public class ReaderTester extends UnitTester{
 		assertEquals(10,lastIndex);
 	}
 	
-	/*//FAIL
+	//FAIL File Name Format not matched
 	@Test
-	public void FAILtestSortFiles(){
+	public void FAIL_testSortFiles(){
 
-		Reader reader = new Reader(new File("D:\\testCase\\testSortFiles"));
+		System.out.println("test Reader: SortFiles in Directory Fail Test");
 		
-		System.out.println("test case Reader: testSortFiles FAIL Method");
+		Reader reader = new Reader(new File("D:\\testCase\\testReader\\sortFailCase"));
 		
-		File fileFolder = new File("D:\\testCase\\testSortFiles");
+		File fileFolder = new File("D:\\testCase\\testReader\\sortFailCase");
 		File[] listOfInputFiles = fileFolder.listFiles();
 		
 		File[] tempFileList = reader.sortFilesInDirectory(listOfInputFiles);
-		int lastIndex = extractNumber(tempFileList[3].getName());
-		boolean isSorted = true;
-		if ( lastIndex != 10 ) {
-			isSorted = false;
-		}
-		assertFalse(!(isSorted));
-	}*/
+		
+		String expectedFailureString = "File Name Format Not Matched Caught";
+		
+		assertEquals(expectedFailureString, reader.readerTestString);
+	}
 }

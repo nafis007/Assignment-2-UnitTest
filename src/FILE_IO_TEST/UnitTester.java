@@ -9,6 +9,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+
 
 
 public class UnitTester {
@@ -33,7 +38,7 @@ public class UnitTester {
 		String writeCheckString = "";
 		
 		try{
-			File inputFile = new File("D:\\testCase\\testWrite\\output1.txt");
+			File inputFile = new File("D:\\testCase\\testWriter\\output1.txt");
 			if (inputFile.isFile() && inputFile.getName().endsWith(".txt")) 
 			{
 				FileReader inputFileReader = new FileReader(inputFile);
@@ -60,7 +65,7 @@ public class UnitTester {
 	////////////////for write test///////////////////////////////
 	
 	
-	/*@BeforeClass  
+	@BeforeClass  
     public static void setUpBeforeClass() throws Exception {  
         System.out.println("before class");  
     }  
@@ -72,13 +77,21 @@ public class UnitTester {
     
     
     
-    
+    @After  
+    public void tearDown() throws Exception {  
+        System.out.println("after");  
+    }  
+  
+    @AfterClass  
+    public static void tearDownAfterClass() throws Exception {  
+        System.out.println("after class");  
+    }  
     
     /////////////////Reader Class Unit Tests///////////////////////
 	
 	
 	/////////////////Writer Class Unit Tests///////////////////////
-	@Test
+	/*@Test
 	public void testWriter_methodWrite(){
 		Writer writer = new Writer(new File("D:\\testCase\\testWrite"));
 		System.out.println("test case Writer: Write Method");

@@ -13,6 +13,8 @@ public class Reader
 {
 	ArrayList<String> inputStringsMerger;  //merger StringList
 	
+	public String readerTestString = ""; //for unitTesting Sorting file failure
+	
 	File targetDirectory;
 	File[] listOfInputFiles;
 	
@@ -47,8 +49,10 @@ public class Reader
 			                    String number = name.substring(startPosition, endPosition);
 			                    i = Integer.parseInt(number);
 			                } catch(Exception e) {
+			                	System.out.println("File Name Format Not Matched Caught");
 			                    i = 0; // if filename does not match the format
 			                           // then default to 0
+			                    readerTestString = new String("File Name Format Not Matched Caught");
 			                }
 			                return i;
 			            }
@@ -107,6 +111,7 @@ public class Reader
 		catch(IOException exception) 
 		{
 			inputStringsMerger.add("Root of any IO exception");
+			//testString = new String("Root of any IO exception");
 			
 			System.out.println("Any kind of IO Excpetion Check");
 		}

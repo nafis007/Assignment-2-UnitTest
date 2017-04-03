@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class Writer 
 {
 	File targetDirectory;
+	
+	public String writerTestString = "";
+	
 	public Writer(File directory)
 	{
 		targetDirectory = directory;
@@ -15,7 +18,6 @@ public class Writer
 	{
 		try
 		{
-			
 			File outputFile = new File(targetDirectory + "\\output" + threadId + ".txt");  
 			FileWriter outputFileWriter = new FileWriter(outputFile);
 			BufferedWriter outputBufferedWriter = new BufferedWriter(outputFileWriter);
@@ -30,7 +32,9 @@ public class Writer
 		} 
 		catch(Exception exception)
 		{
-			exception.printStackTrace();
+			//exception.printStackTrace();
+			System.out.println("Exception in Write Method Caught");
+			writerTestString = "Exception in Write Method Caught";
 		}
 	}
 }
