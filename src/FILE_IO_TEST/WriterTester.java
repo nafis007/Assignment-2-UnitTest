@@ -23,9 +23,10 @@ public class WriterTester extends UnitTester{
 		testInputString.add("test write");
 		writer.write(testInputString, 1);
 		
-		String writeCheckString = readForTest();
+		String expectedString = "test write";
+		String afterWriteReceivedString = readForTest();
 
-		assertEquals("test write", writeCheckString);
+		assertEquals(expectedString, afterWriteReceivedString);
 	}
 	
 	
@@ -42,8 +43,9 @@ public class WriterTester extends UnitTester{
 		testInputString.add("test write");
 		writer.write(testInputString, 1);
 		
-		String writeCheckString = writer.writerTestString;
+		String expectedString = "Exception in Write Method Caught";
+		String afterWriteReceivedString = writer.writerTestString;
 
-		assertEquals(writeCheckString, "Exception in Write Method Caught");
+		assertEquals(expectedString, afterWriteReceivedString);
 	}
 }

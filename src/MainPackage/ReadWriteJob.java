@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class ReadWriteRunnable implements Runnable 
+public class ReadWriteJob implements Runnable 
 {
 	Reader inputReader;
 	Writer outputWriter;
@@ -14,7 +14,7 @@ public class ReadWriteRunnable implements Runnable
 	
 	ArrayList<String> chunkInputStrings;
 	
-	public ReadWriteRunnable(Reader inReader, Writer outWriter, int first, int last, int id)
+	public ReadWriteJob(Reader inReader, Writer outWriter, int first, int last, int id)
 	{
 		this.inputReader = inReader;
 		this.outputWriter = outWriter;

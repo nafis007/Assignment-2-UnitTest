@@ -17,19 +17,21 @@ public class RandomInputGeneratorTester extends UnitTester {
 		
 		System.out.println("test RandomInputGenerator : RandomInputGenerator Constructor Success Test");
 		
-		int inputFileNumber = 3;
 		File directory = new File("D:\\testCase\\testRandomGenerator");
+		
+		int expectedNumberOfFiles = 3;
 		
 		RandomTextInputGenerator randomGenerator = 
 				new RandomTextInputGenerator
-					(directory, inputFileNumber);
+					(directory, expectedNumberOfFiles);
 
 		
 		File [] inputList = directory.listFiles();
 		
-		int expectedNumberOfFiles = inputList.length;
+		
+		int receivedNumberOfFiles = inputList.length;
 
-		assertEquals(inputFileNumber, expectedNumberOfFiles);
+		assertEquals(expectedNumberOfFiles, receivedNumberOfFiles);
 	}
 	
 	
@@ -44,9 +46,11 @@ public class RandomInputGeneratorTester extends UnitTester {
 				new RandomTextInputGenerator(new File("D:\\testCase\\testRandomGenerators"),3);
 		
 
-		String randomGeneratorCheckString = randomGenerator.randomGeneratorTestString;
+		String randomGeneratorReceivedString = randomGenerator.randomGeneratorTestString;
+		
+		String expectedString = "Random Input Exception Caught";
 
-		assertEquals("Random Input Exception Caught", randomGeneratorCheckString);
+		assertEquals(expectedString, randomGeneratorReceivedString);
 	}
 	
 }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class TextFileReadWriteThreadHandler 
 {
-	public static ArrayList<Thread> listOfReadWriteThreads = new ArrayList<Thread>();
+	public ArrayList<Thread> listOfReadWriteThreads = new ArrayList<Thread>();
 	
-	public static ArrayList<ReadWriteRunnable> listOfRunnables = new ArrayList<ReadWriteRunnable>();
+	public ArrayList<ReadWriteJob> listOfJobs = new ArrayList<ReadWriteJob>();
 	
 	static int numberOfInputFiles;
 	static int numberOfThreads;
@@ -24,18 +24,18 @@ public class TextFileReadWriteThreadHandler
 		
 	}
 	
-	public boolean notEquallyDistributed(int inputFiles, int runnableId, int chunksOfFiles)
+	public boolean notEquallyDistributed(int inputFiles, int jobId, int chunksOfFiles)
 	{
 		boolean decision =  false;
 		
-		if ( inputFiles - ( ( runnableId + 1 ) * chunksOfFiles ) < chunksOfFiles ) 
+		if ( inputFiles - ( ( jobId + 1 ) * chunksOfFiles ) < chunksOfFiles ) 
 		{
 			decision = true;
 		}
 		return decision;
 	}
 	
-	public void runnableManager()
+	public void runnableManager() throws Exception
 	{
 		int chunksOfFiles = numberOfInputFiles / numberOfThreads;
 		
@@ -43,57 +43,62 @@ public class TextFileReadWriteThreadHandler
 		
 		System.out.println("debug chunk size: " + chunksOfFiles + " remaining size: " + remainingFiles);
 		
-		for ( int firstIndex = 0; firstIndex < numberOfInputFiles; firstIndex += chunksOfFiles ) {
-
-			int lastIndex;
-			
-			int runnableId = firstIndex / chunksOfFiles;
-			
-			if ( notEquallyDistributed(numberOfInputFiles, runnableId, chunksOfFiles) 
-					&& remainingFiles != 0 )
-			{
-				
-				Reader inputReader = new Reader(inputDir);
-				Writer outputWriter = new Writer(outputDir);
-				
-				// reading from current file index to the very last index as this chucnk is not equally distributed
-				lastIndex = firstIndex + chunksOfFiles + remainingFiles - 1;  
-				
-				System.out.println("First Index: " + firstIndex + " Last Index: " + lastIndex);
-				
-				ReadWriteRunnable tempRunnable = 
-					new ReadWriteRunnable(inputReader, outputWriter, firstIndex, lastIndex, runnableId);
-				
-				listOfRunnables.add(tempRunnable);
-				
-				break;
-			}
-			else
-			{
-				
-				Reader inputReader = new Reader(inputDir);
-				Writer outputWriter = new Writer(outputDir);
-				
-				// reading from current file index to the equally distributed last index
-				lastIndex = firstIndex + chunksOfFiles - 1;
-				
-				System.out.println("First Index: "+ firstIndex + " Last Index: " + lastIndex);
-				
-				ReadWriteRunnable tempRunnable = 
-					new ReadWriteRunnable(inputReader,outputWriter,firstIndex,lastIndex,runnableId);
-				
-				listOfRunnables.add(tempRunnable);
-			}
+		try {
+			for ( int firstIndex = 0; firstIndex < numberOfInputFiles; firstIndex += chunksOfFiles ) {
 	
+				int lastIndex;
+				
+				int jobId = firstIndex / chunksOfFiles;
+				
+				if ( notEquallyDistributed(numberOfInputFiles, jobId, chunksOfFiles) 
+						&& remainingFiles != 0 )
+				{
+					
+					Reader inputReader = new Reader(inputDir);
+					Writer outputWriter = new Writer(outputDir);
+					
+					// reading from current file index to the very last index as this chucnk is not equally distributed
+					lastIndex = firstIndex + chunksOfFiles + remainingFiles - 1;  
+					
+					System.out.println("First Index: " + firstIndex + " Last Index: " + lastIndex);
+					
+					ReadWriteJob tempJob = 
+						new ReadWriteJob(inputReader, outputWriter, firstIndex, lastIndex, jobId);
+					
+					listOfJobs.add(tempJob);
+					
+					break;
+				}
+				else
+				{
+					
+					Reader inputReader = new Reader(inputDir);
+					Writer outputWriter = new Writer(outputDir);
+					
+					// reading from current file index to the equally distributed last index
+					lastIndex = firstIndex + chunksOfFiles - 1;
+					
+					System.out.println("First Index: "+ firstIndex + " Last Index: " + lastIndex);
+					
+					ReadWriteJob tempRunnable = 
+						new ReadWriteJob(inputReader,outputWriter,firstIndex,lastIndex,jobId);
+					
+					listOfJobs.add(tempRunnable);
+				}
+				
+			}
+		}
+		catch(Exception ex) {
+			System.out.println("Exception Caught In ThreadHandler");
 		}
 	}
 	
 	
 	public void threadCreator()
 	{
-		for ( int runnableIndex = 0; runnableIndex < listOfRunnables.size(); runnableIndex++ ){
+		for ( int jobIndex = 0; jobIndex < listOfJobs.size(); jobIndex++ ){
 			
-			Thread tempThread = new Thread(listOfRunnables.get(runnableIndex));
+			Thread tempThread = new Thread(listOfJobs.get(jobIndex));
 			
 			listOfReadWriteThreads.add(tempThread);
 			
@@ -127,7 +132,7 @@ public class TextFileReadWriteThreadHandler
 	}
 	
 	
-	public void threadReadWrite()
+	public void threadReadWrite() throws Exception
 	{
 		runnableManager();
 
@@ -141,10 +146,10 @@ public class TextFileReadWriteThreadHandler
 		Reader masterReader = new Reader(masterInDir);
 		Writer masterWriter = new Writer(masterOutDir);
 		
-		ReadWriteRunnable masterRunnable = 
-				new ReadWriteRunnable(masterReader, masterWriter, 0, numberOfThreads-1, -1);
+		ReadWriteJob masterReadWriteJob = 
+				new ReadWriteJob(masterReader, masterWriter, 0, numberOfThreads-1, -1);
 		
-		Thread masterThread = new Thread(masterRunnable);
+		Thread masterThread = new Thread(masterReadWriteJob);
 		
 		masterThread.start();
 		

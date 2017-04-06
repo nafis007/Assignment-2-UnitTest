@@ -23,9 +23,10 @@ public class ReaderTester extends UnitTester{
     	
 		Reader reader = new Reader(new File("D:\\testCase\\testReader\\readerAndRead"));
 		
-		int expectedFileSize = 2;
+		int expectedFileLength = 2;
+		int receivedFileLength = reader.read(0,0).size();
 		
-		assertEquals(expectedFileSize, reader.read(0,0).size()); 
+		assertEquals(expectedFileLength, receivedFileLength); 
 	}
 	
     //FAIL ArrayIndexOutoFBound 
@@ -36,10 +37,12 @@ public class ReaderTester extends UnitTester{
     	
 		Reader reader = new Reader(new File("D:\\testCase\\testReader\\readerAndRead"));
 		
-		int expectedFileSize = 2;
+		int expectedFileLength = 2;
 		
-		//there is only one text file but i am giving to read 2 files
-		assertEquals(expectedFileSize, reader.read(0,1).size()); 
+		//there is only one text file but i am giving to read 2 text files (index 0 and 1)
+		int receivedFileLength = reader.read(0,1).size();
+		
+		assertEquals(expectedFileLength, receivedFileLength); 
 	}
     
     //FAIL NO Directory fail test
@@ -53,8 +56,9 @@ public class ReaderTester extends UnitTester{
 		Reader reader = new Reader(new File("D:\\testCase\\testReaders\\readerAndRead"));
 		
 		String expectedFailureString = "Root of any IO exception";
+		String receivedFailureString = reader.read(0, 0).get(0);
 		
-		assertEquals(expectedFailureString, reader.read(0, 0).get(0)); 
+		assertEquals(expectedFailureString, receivedFailureString); 
 	}
 	
     
@@ -71,9 +75,12 @@ public class ReaderTester extends UnitTester{
 		File[] listOfInputFiles = fileFolder.listFiles();
 		
 		File[] tempFileList = reader.sortFilesInDirectory(listOfInputFiles);
-		int lastIndex = extractNumber(tempFileList[3].getName());
 		
-		assertEquals(10,lastIndex);
+		int receivedLastIndex = extractNumber(tempFileList[4].getName());
+		
+		int expectedLastIndex = 15;
+		
+		assertEquals(expectedLastIndex,receivedLastIndex);
 	}
 	
 	//FAIL File Name Format not matched
@@ -87,10 +94,12 @@ public class ReaderTester extends UnitTester{
 		File fileFolder = new File("D:\\testCase\\testReader\\sortFailCase");
 		File[] listOfInputFiles = fileFolder.listFiles();
 		
-		File[] tempFileList = reader.sortFilesInDirectory(listOfInputFiles);
+		reader.sortFilesInDirectory(listOfInputFiles);
 		
 		String expectedFailureString = "File Name Format Not Matched Caught";
 		
-		assertEquals(expectedFailureString, reader.readerTestString);
+		String receivedFailureString = reader.readerTestString;
+		
+		assertEquals(expectedFailureString, receivedFailureString);
 	}
 }

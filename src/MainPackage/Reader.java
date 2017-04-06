@@ -49,7 +49,7 @@ public class Reader
 			                    String number = name.substring(startPosition, endPosition);
 			                    i = Integer.parseInt(number);
 			                } catch(Exception e) {
-			                	System.out.println("File Name Format Not Matched Caught");
+			                	System.out.println("Exception Caught in File Sorting");
 			                    i = 0; // if filename does not match the format
 			                           // then default to 0
 			                    readerTestString = new String("File Name Format Not Matched Caught");

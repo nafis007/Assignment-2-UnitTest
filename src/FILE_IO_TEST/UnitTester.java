@@ -137,7 +137,7 @@ public class UnitTester {
 		thread.runnableManager();
 		thread.threadCreator();
 		//assertEquals(2,listOfRunnables.size());
-		assertEquals(listOfReadWriteThreads.size(),listOfRunnables.size());
+		assertEquals(listOfReadWriteThreads.size(),listOfJobs.size());
 	}*/
 	
 }
